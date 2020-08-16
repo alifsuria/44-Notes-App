@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="fontawesome/all.min.css">
+    <link rel="stylesheet" href="bootstrap-4.3.1-dist/bootstrap.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="header p-3">
+        <div class="box text-light">
+            <h2 class="mb-1">Notes App</h2>
+            <h5 class="mb-0">Take notes and never forget</h5>
+        </div>
+    </div>
+    <div class="middle-sect my-3">
+        <div>
+            <a href="index.html" role="button" id="create-item" class="btn btn-warning btn-sm"><i class="fas fa-home mr-1"></i>Home</a>
+        </div>
+        <span id="edit-timestamp">Exp:Last edited a few moment ago</span>
+    </div>
+    <div class="edit-section">
+        <div class="form-group">
+            <input type="text" placeholder="Note title" id="input-title" class="form-control">
+        </div>
+        <div class="form-group">
+            <textarea class="form-control" placeholder="Enter note text" name="" id="note-text-input"
+                rows="9"></textarea>
+        </div>
+        <button type="button" id="remove-note" class="btn btn-danger btn-sm"><i class="fas fa-trash mr-1"></i>Remove
+            Note</button>
+    </div>
+
+
+    <script src="bootstrap-4.3.1-dist/jquery-3.3.1.js"></script>
+    <script src="bootstrap-4.3.1-dist/bootstrap.bundle.js"></script>
+    <script src="js/function.js"></script>
+    <script src="js/script-edit.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="fontawesome/all.min.css">
+    <link rel="stylesheet" href="bootstrap-4.3.1-dist/bootstrap.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="header p-3">
+        <div class="box text-light">
+            <h2 class="mb-1">Notes App</h2>
+            <h5 class="mb-0">Take notes and never forget</h5>
+        </div>
+    </div>
+    <div class="action p-2">
+        <div class="action-box">
+            <input id="search-input" type="text" placeholder="Filter Notes"
+                class="mr-3 d-inline-block form-control form-control-sm">
+            <select name="" id="note-filter" class="ml-3 d-inline-block form-control form-control-sm">
+                <option selected value="last_edited">Sort by Last Edited</option>
+                <option value="order-create">Sort by Order Created</option>
+                <option value="alphabet">Sort Alphabetically</option>
+            </select>
+        </div>
+    </div>
+    <div id="note-box">
+        <p class="feedback hide">Nothing to view here</p>
+        <div id="note-list" class="my-3">
+        </div>
+        <div>
+            <a href="edit.html" role="button" class="btn btn-primary btn-sm">Create Note</a>
+        </div>
+    </div>
+
+
+    <script src="bootstrap-4.3.1-dist/jquery-3.3.1.js"></script>
+    <script src="bootstrap-4.3.1-dist/bootstrap.bundle.js"></script>
+    <script src="js/function.js"></script>
+    <script src="js/script-index.js"></script>
+</body>
+
+</html>
