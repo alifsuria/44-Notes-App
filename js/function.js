@@ -67,11 +67,6 @@ function filteringNote(JSON, bool) {
   }
 }
 
-function last_created() {
-  let last_edited = new Date().getTime();
-  return last_edited;
-}
-
 function time(item,timestamp,bool){
   let now = new Date().getTime();
   let total = now - item.last_edited;
