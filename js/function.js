@@ -9,8 +9,9 @@ const edit_timestamp = document.getElementById("edit-timestamp");
 const note_filter = document.getElementById("note-filter");
 const search_input = document.getElementById("search-input");
 
+let notes = get_savedNote();
+
 //get the existing info from the page using uniqueID
-let JSONOBJ = JSON.parse(localStorage.getItem("note")); //get the all the note in obj
 let note_ID = parseInt(location.hash.substr(1)); //get the number from the link address
 
 function uniqueId() {
@@ -50,7 +51,7 @@ function getLocalStorage(item) {
 
 function filteringNote(JSON, bool) {
   //filtering all note and only get note when id is the same with the address
-  if (bool === true) {
+  if (bool === true && JSON !== null) {
     let target_note = JSON.filter((item) => {
       return item.uniqueID === note_ID;
     });
@@ -58,41 +59,51 @@ function filteringNote(JSON, bool) {
     return target_note[0];
 
     // filtering note and only get the note that didnt same the unique id address
-  } else {
+  } else if (bool === false && JSON !== null) {
     let new_one = JSON.filter((item) => {
       return item.uniqueID !== note_ID;
     });
     console.log(new_one);
     return new_one;
   }
+  return;
 }
 
-function time(item,timestamp,bool){
+function time(item, timestamp, bool) {
   let now = new Date().getTime();
   let total = now - item.last_edited;
 
   let days = Math.floor(total / (1000 * 60 * 60 * 24));
   let hours = Math.floor((total % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
   let minutes = Math.floor((total % (1000 * 60 * 60)) / (1000 * 60));
-  let seconds = Math.floor(total % (1000*60)/1000);
+  let seconds = Math.floor((total % (1000 * 60)) / 1000);
   // console.log(total, days, hours, minutes, seconds);
   // debugger;
-if(bool === true){
-  if (days > 0) {
-    return (timestamp.innerHTML = `Last edited ${days} days ago`);
-  } else if (hours > 0) {
-    return (timestamp.innerHTML = `Last edited ${hours} hours ago`);
-  } else if (minutes > 3) {
-    return (timestamp.innerHTML = `Last edited ${minutes} minutes ago`);
-  } else {
-    return (timestamp.innerHTML = `Last edited few moments ago`);
+  // if (bool === true) {
+  //   if (days > 0) {
+  //     return (timestamp.innerHTML = `Last edited ${days} days ago`);
+  //   } else if (hours > 0) {
+  //     return (timestamp.innerHTML = `Last edited ${hours} hours ago`);
+  //   } else if (minutes > 3) {
+  //     return (timestamp.innerHTML = `Last edited ${minutes} minutes ago`);
+  //   } else {
+  //     return (timestamp.innerHTML = `Last edited few moments ago`);
+  //   }
+  // } else if (bool === false) {
+    return (timestamp.innerHTML = `Last edited ${days} days,${hours} hours,${minutes} minutes,${seconds} seconds`);
   }
-}else if(bool === false){
-  return (timestamp.innerHTML = `Last edited ${days} days,${hours} hours,${minutes} minutes,${seconds} seconds`)
-}
-}
 
 function last_created() {
   let last_edited = new Date().getTime();
   return last_edited;
+}
+
+function get_savedNote() {
+  let store = localStorage.getItem("note");
+
+  try {
+    return store ? JSON.parse(store) : [];
+  } catch (err) {
+    return [];
+  }
 }

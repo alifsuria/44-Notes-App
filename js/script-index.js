@@ -1,5 +1,10 @@
+
 document.addEventListener("DOMContentLoaded", () => {
-  filter("last_edited");
+  if(notes === null || notes === "undefined"){
+    return
+  }else if(notes.length >= 0){
+    filter("last_edited");
+  }
 });
 
 note_filter.addEventListener("change", () => {
@@ -14,54 +19,60 @@ search_input.addEventListener("input", (e) => {
 
 function filter(mode) {
   sorted_Note(mode);
-  console.log(JSONOBJ);
-  let filteredNotes = JSONOBJ.filter((item) => {
-    let title = item.title.toLowerCase();
-    let filter = search_input.value.toLowerCase();
-    return title.includes(filter);
-  });
-
-  console.log(JSONOBJ)
-  if (JSONOBJ === null || JSONOBJ.length === 0) {
-    feedback.classList.remove("hide");
-    console.log("Success enter the zone")
+  if (notes === null || notes === "undefined") {
+    return;
   } else {
-    feedback.classList.add("hide");
-    filteredNotes.forEach((item) => {
-      const p = create_note(item);
-      note_list.appendChild(p);
+    let filteredNotes = notes.filter((item) => {
+      let title = item.title.toLowerCase();
+      let filter = search_input.value.toLowerCase();
+      return title.includes(filter);
     });
+    if (notes === null || notes.length === 0 || notes === "undefined") {
+      feedback.classList.remove("hide");
+      console.log("Success enter the zone");
+    } else {
+      feedback.classList.add("hide");
+      filteredNotes.forEach((item) => {
+        const p = create_note(item);
+        note_list.appendChild(p);
+      });
+    }
   }
+
 }
 
 function sorted_Note(mode) {
   note_list.innerHTML = "";
-  if (mode === "last_edited") {
-    console.log("edited");
-    return JSONOBJ.sort((a, b) => {
-      console.log(a.last_edited, b.last_edited);
-      return b.last_edited - a.last_edited;
-    });
-  } else if (mode === "order-create") {
-    console.log("order");
-    return JSONOBJ.sort((a, b) => {
-      return a.last_edited - b.last_edited;
-    });
-  } else if (mode === "alphabet") {
-    console.log("alphabet");
-    return JSONOBJ.sort((a, b) => {
-      if (a.title.toLowerCase() > b.title.toLowerCase()) {
-        return 1;
-      }
-      if (b.title.toLowerCase() > a.title.toLowerCase()) {
-        return -1;
-      }
-      return 0;
+  if (notes === null || notes === "undefined") {
+    return;
+  } else {
+    if (mode === "last_edited") {
+      console.log("edited");
+      return notes.sort((a, b) => {
+        console.log(a.last_edited, b.last_edited);
+        return b.last_edited - a.last_edited;
+      });
+    } else if (mode === "order-create") {
+      console.log("order");
+      return notes.sort((a, b) => {
+        return a.last_edited - b.last_edited;
+      });
+    } else if (mode === "alphabet") {
+      console.log("alphabet");
+      return notes.sort((a, b) => {
+        if (a.title.toLowerCase() > b.title.toLowerCase()) {
+          return 1;
+        }
+        if (b.title.toLowerCase() > a.title.toLowerCase()) {
+          return -1;
+        }
+        return 0;
 
-      //the same as a.title.toLowerCase() === b.title.toLowerCase() ? 0 : a.title.toLowerCase() < b.title.toLowerCase() ? 1 : -1;
-    });
+        //the same as a.title.toLowerCase() === b.title.toLowerCase() ? 0 : a.title.toLowerCase() < b.title.toLowerCase() ? 1 : -1;
+      });
+    }
   }
-  console.log(JSONOBJ);
+  console.log(notes);
 }
 
 function create_note(item) {
@@ -80,9 +91,8 @@ function create_note(item) {
   a_tag.setAttribute("href", `../edit.html#${item.uniqueID}`);
 
   setInterval(() => {
-    time(item,p_timestamp,true);
+    time(item, p_timestamp, true);
   }, 1000);
   // debugger;
   return a_tag;
 }
-

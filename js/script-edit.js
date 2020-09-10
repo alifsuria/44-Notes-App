@@ -1,11 +1,11 @@
 //for differentiate between the note is new note type or for edit type
-if (isNaN(note_ID) || JSONOBJ === null) {
+if (isNaN(note_ID) || notes === null) {
   console.log("NaN in the link address");
 } else {
-  input_title.value = filteringNote(JSONOBJ, true).title;
-  note_text_input.value = filteringNote(JSONOBJ, true).desc;
+  input_title.value = filteringNote(notes, true).title;
+  note_text_input.value = filteringNote(notes, true).desc;
   edit_timestamp.innerHTML = setInterval(() => {
-    time(filteringNote(JSONOBJ, true), edit_timestamp, false);
+    time(filteringNote(notes, true), edit_timestamp,false);
   }, 1000);
 }
 
@@ -23,14 +23,12 @@ create_item.addEventListener("click", (event) => {
     };
     getLocalStorage(unnamed);
   } else {
+    debugger;
     //set the note with the newly extract
-    if (
-      localStorage.length > 0 ||
-      filteringNote(JSONOBJ, true).uniqueID === note_ID
-    ) {
+    if (localStorage.length > 0 ||filteringNote(notes, true).uniqueID === note_ID) {
       localStorage.setItem(
         "note",
-        JSON.stringify(filteringNote(JSONOBJ, false))
+        JSON.stringify(filteringNote(notes, false))
       );
     }
 
@@ -45,9 +43,9 @@ create_item.addEventListener("click", (event) => {
 });
 
 remove_note_btn.addEventListener("click", () => {
-  console.log(filteringNote(JSONOBJ, true));
-  console.log(filteringNote(JSONOBJ, false));
-  localStorage.setItem("note", JSON.stringify(filteringNote(JSONOBJ, false)));
+  console.log(filteringNote(notes, true));
+  console.log(filteringNote(notes, false));
+  localStorage.setItem("note", JSON.stringify(filteringNote(notes, false)));
   // debugger;
   location.assign("../index.html");
 });
