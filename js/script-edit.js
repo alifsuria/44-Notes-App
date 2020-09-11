@@ -34,7 +34,7 @@ create_item.addEventListener("click", (event) => {
         desc: note_text_value,
         last_edited: last_created(),
       };
-      location.assign(`./edit.html#${note.uniqueID}`)
+      location.assign(`../edit.html#${note.uniqueID}`)
       getLocalStorage(note);
 
     }else{
