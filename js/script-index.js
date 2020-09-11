@@ -88,7 +88,7 @@ function create_note(item) {
   a_tag.appendChild(p_timestamp);
 
   a_tag.classList.add("note-item", "my-3");
-  a_tag.setAttribute("href", `../edit.html#${item.uniqueID}`);
+  a_tag.setAttribute("href", `./edit.html#${item.uniqueID}`);
 
   setInterval(() => {
     time(item, p_timestamp, true);
