@@ -62,7 +62,7 @@ remove_note_btn.addEventListener("click", () => {
   console.log(filteringNote(notes, false));
   localStorage.setItem("note", JSON.stringify(filteringNote(notes, false)));
   // debugger;
-  location.assign("../index.html");
+  location.assign("./index.html");
 });
 
 console.log(localStorage);
