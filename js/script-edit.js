@@ -1,50 +1,55 @@
-const input_title = document.getElementById("input-title");
-const input_text = document.getElementById("note-text-input");
-const timestamp = document.getElementById("edit-timestamp");
-const remove_note_btn = document.getElementById("remove-note");
+//for differentiate between the note is new note type or for edit type
+if (isNaN(note_ID) || notes === null) {
+  console.log("NaN in the link address");
+} else {
+  input_title.value = filteringNote(notes, true).title;
+  note_text_input.value = filteringNote(notes, true).desc;
+  edit_timestamp.innerHTML = setInterval(() => {
+    time(filteringNote(notes, true), edit_timestamp,false);
+  }, 1000);
+}
 
-let getNote = get_saved_note();
-let noteID = parseInt(location.hash.substr(1));
-//if localstorage didnt exist ..find() didnt run and skip;
-let note = getNote.find((item)=>{
-  console.log(item)
-  return item.uniqueID === noteID;
-})
-console.log(noteID)
-console.log(getNote,note)
+create_item.addEventListener("click", (event) => {
+  // event.preventDefault();
+  let title_value = input_title.value;
+  let note_text_value = note_text_input.value;
 
-input_title.value = note.title;
-input_text.value = note.desc;
-timestamp.innerHTML = setInterval(()=>{time(note,timestamp)},1000)
+  if (title_value === "" || note_text_value === "") {
+    let unnamed = {
+      uniqueID: uniqueId(),
+      title: "Unnamed Note",
+      desc: "",
+      last_edited: last_created(),
+    };
+    location.assign(`./edit.html#${unnamed.uniqueID}`)
+    getLocalStorage(unnamed);
+  } else {
+    //set the note with the newly extract
+    debugger;
+    if (localStorage.getItem("note").length > 0 ||filteringNote(notes, true).uniqueID === note_ID) {
+      localStorage.setItem(
+        "note",
+        JSON.stringify(filteringNote(notes, false))
+      );
+    }
 
-input_title.addEventListener("input",()=>{
-  //this save the value according to trace id;if the id is 0;input title = title property of the id;
-  note.title = input_title.value;
-  save_note(getNote);
-  get_saved_note();
-  console.log(getNote,note)
-})
+    let note = {
+      uniqueID: uniqueId(),
+      title: title_value,
+      desc: note_text_value,
+      last_edited: last_created(),
+    };
+    location.assign(`./edit.html#${note.uniqueID}`)
+    getLocalStorage(note);
+  }
+});
 
-input_text.addEventListener("input",()=>{
-  note.desc = input_text.value;
-  save_note(getNote);
-  get_saved_note();
-  console.log(getNote,note)
-})
-
-remove_note_btn.addEventListener("click",()=>{
-  // let filter = getNote.filter((item)=>{
-  //   console.log(item);
-  //   return item.uniqueID !== noteID
-  // })
-  remove_note(noteID);
-  save_note(getNote);
+remove_note_btn.addEventListener("click", () => {
+  console.log(filteringNote(notes, true));
+  console.log(filteringNote(notes, false));
+  localStorage.setItem("note", JSON.stringify(filteringNote(notes, false)));
+  // debugger;
   location.assign("../index.html");
-  // console.log(filter);
-})
+});
 
-
-
-
-
-
+console.log(localStorage);
