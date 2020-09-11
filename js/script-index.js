@@ -1,98 +1,108 @@
+const create_note = document.getElementById("create-note");
+const note_list = document.getElementById("note-list");
+const note_filter = document.getElementById("note-filter");
+const search = document.getElementById("search-input");
+let note = get_saved_note();
 
-document.addEventListener("DOMContentLoaded", () => {
-  if(notes === null || notes === "undefined"){
-    return
-  }else if(notes.length >= 0){
-    filter("last_edited");
-  }
+document.addEventListener("DOMContentLoaded",()=>{
+  render_Note("last-edited")
+})
+
+create_note.addEventListener("click", () => {
+  let new_note = {
+    uniqueID: unique_ID(get_saved_note()),
+    title: "",
+    desc: "",
+    last_edited: last_edited(),
+  };
+
+  note.push(new_note);
+  console.log(localStorage.getItem("note2"), note);
+  save_note(note);
+
+  location.assign(`../edit.html#${new_note.uniqueID}`);
 });
 
 note_filter.addEventListener("change", () => {
   let filter_mode = note_filter.value;
-  filter(filter_mode);
+  render_Note(filter_mode);
 });
 
-search_input.addEventListener("input", (e) => {
+search.addEventListener("input",()=>{
   let filter_mode = note_filter.value;
-  filter(filter_mode);
-});
+  render_Note(filter_mode)
+})
 
-function filter(mode) {
-  sorted_Note(mode);
-  if (notes === null || notes === "undefined") {
-    return;
+function render_Note(mode) {
+  sort(mode);
+  debugger;
+  let filtering_Note = note.filter((item) => {
+    let title = item.title.toLowerCase();
+    let filter = search.value.toLowerCase();
+    return title.includes(filter);
+  });
+
+  if (note === null || note.length === 0) {
+    console.log("nothing to show");
   } else {
-    let filteredNotes = notes.filter((item) => {
-      let title = item.title.toLowerCase();
-      let filter = search_input.value.toLowerCase();
-      return title.includes(filter);
+    filtering_Note.forEach((item) => {
+      let p = creating_note(item);
+      note_list.appendChild(p);
     });
-    if (notes === null || notes.length === 0 || notes === "undefined") {
-      feedback.classList.remove("hide");
-      console.log("Success enter the zone");
-    } else {
-      feedback.classList.add("hide");
-      filteredNotes.forEach((item) => {
-        const p = create_note(item);
-        note_list.appendChild(p);
-      });
-    }
   }
-
 }
 
-function sorted_Note(mode) {
+function sort(mode) {
   note_list.innerHTML = "";
-  if (notes === null || notes === "undefined") {
-    return;
-  } else {
-    if (mode === "last_edited") {
-      console.log("edited");
-      return notes.sort((a, b) => {
-        console.log(a.last_edited, b.last_edited);
-        return b.last_edited - a.last_edited;
-      });
-    } else if (mode === "order-create") {
-      console.log("order");
-      return notes.sort((a, b) => {
-        return a.last_edited - b.last_edited;
-      });
-    } else if (mode === "alphabet") {
-      console.log("alphabet");
-      return notes.sort((a, b) => {
-        if (a.title.toLowerCase() > b.title.toLowerCase()) {
-          return 1;
-        }
-        if (b.title.toLowerCase() > a.title.toLowerCase()) {
-          return -1;
-        }
-        return 0;
-
-        //the same as a.title.toLowerCase() === b.title.toLowerCase() ? 0 : a.title.toLowerCase() < b.title.toLowerCase() ? 1 : -1;
-      });
-    }
+  if (mode === "last-edited") {
+    console.log("last-edited")
+    return note.sort((a, b) => {
+      console.log(a.last_edited, b.last_edited);
+      return b.last_edited - a.last_edited;
+    });
+  } else if (mode === "order-create") {
+    console.log("order-create")
+    return note.sort((a, b) => {
+      return a.last_edited - b.last_edited;
+    });
+  }else if(mode === "alphabet"){
+    return note.sort((a,b)=>{
+      if(a.title.toLowerCase() > b.title.toLowerCase()){
+        debugger;
+        return 1;
+      }
+      if(b.title.toLowerCase() > a.title.toLowerCase()){
+        debugger;
+        return -1
+      }
+      debugger;
+      return 0;
+    })
   }
-  console.log(notes);
 }
 
-function create_note(item) {
-  let a_tag = document.createElement("a");
-  let p_title = document.createElement("p");
-  let p_timestamp = document.createElement("p");
-
-  p_title.classList.add("item-title");
-  p_title.innerHTML = `${item.title}`;
-  a_tag.appendChild(p_title);
-
-  p_timestamp.classList.add("item-timestamp");
-  a_tag.appendChild(p_timestamp);
-
-  a_tag.classList.add("note-item", "my-3");
-  a_tag.setAttribute("href", `../edit.html#${item.uniqueID}`);
-
-  setInterval(() => {
-    time(item, p_timestamp, true);
-  }, 1000);
-  // debugger;
-  return a_tag;
+function unique_ID(storage) {
+  let new_id = Math.floor(Math.random() * 10001);
+  console.log(new_id);
+  if (storage === null || storage === "undefined") {
+    console.log("the localstorage hasnt existed");
+    return new_id;
+  } else {
+    //this method
+    // for(let i =0;i<local_storage_note.length;i++){
+    //   console.log(local_storage_note[i])
+    //   if(local_storage_note[i].uniqueID === new_id){
+    //     console.log("id has already exist")
+    //     return unique_ID();
+    //   }
+    // }
+    //or this method
+    storage.forEach((item) => {
+      if (item.uniqueID === new_id) {
+        console.log("id has already exist");
+        return unique_ID(get_saved_note());
+      }
+    });
+    return new_id;
+  }
 }
