@@ -26,21 +26,33 @@ create_item.addEventListener("click", (event) => {
   } else {
     //set the note with the newly extract
     debugger;
-    if (localStorage.getItem("note").length > 0 ||filteringNote(notes, true).uniqueID === note_ID) {
-      localStorage.setItem(
-        "note",
-        JSON.stringify(filteringNote(notes, false))
-      );
-    }
+    if(notes === null || notes === "undefined"){
+      let note = {
+        uniqueID: uniqueId(),
+        title: title_value,
+        desc: note_text_value,
+        last_edited: last_created(),
+      };
+      location.assign(`./edit.html#${note.uniqueID}`)
+      getLocalStorage(note);
 
-    let note = {
-      uniqueID: uniqueId(),
-      title: title_value,
-      desc: note_text_value,
-      last_edited: last_created(),
-    };
-    location.assign(`./edit.html#${note.uniqueID}`)
-    getLocalStorage(note);
+    }else{
+      if (localStorage.getItem("note").length > 0 ||filteringNote(notes, true).uniqueID === note_ID) {
+        localStorage.setItem(
+          "note",
+          JSON.stringify(filteringNote(notes, false))
+        );
+      }
+
+      let note = {
+        uniqueID: uniqueId(),
+        title: title_value,
+        desc: note_text_value,
+        last_edited: last_created(),
+      };
+      location.assign(`./edit.html#${note.uniqueID}`)
+      getLocalStorage(note);
+    }
   }
 });
 
