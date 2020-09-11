@@ -26,8 +26,8 @@ create_item.addEventListener("click", (event) => {
   } else {
     //set the note with the newly extract
     debugger;
-    console.log(notes)
-    if(notes === null || notes === "undefined"){
+    console.log(notes);
+    if(notes.length <= 0 || notes === "undefined"){
       let note = {
         uniqueID: uniqueId(),
         title: title_value,
